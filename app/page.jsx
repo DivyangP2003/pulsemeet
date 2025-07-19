@@ -2,12 +2,15 @@ import Pricing from "@/components/pricing";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { checkUser } from "@/lib/checkUser";
 import { creditBenefits, features, testimonials } from "@/lib/data";
 import { ArrowRight, Check, Stethoscope } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const user = await checkUser();
+
   return (
     <div className="bg-background">
       <section className="relative overflow-hidden py-32">
@@ -31,7 +34,7 @@ export default function Home() {
                 Book appointments, consult via video, and manage your Healthcare
                 journey all in one secure platform
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   asChild
                   size="lg"
@@ -50,6 +53,62 @@ export default function Home() {
                 >
                   <Link href={"/doctors"}>Find Doctors</Link>
                 </Button>
+              </div> */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                {user?.role === "PATIENT" ? (
+                  <>
+                    <Button
+                      asChild
+                      size="lg"
+                      className="bg-emerald-600 text-white hover:bg-emerald-700"
+                    >
+                      <Link href="/appointments">
+                        My Appointments
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="bg-emerald-700/30 hover:bg-muted/80"
+                    >
+                      <Link href="/doctors">Find Doctors</Link>
+                    </Button>
+                  </>
+                ) : user?.role === "DOCTOR" ? (
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-emerald-600 text-white hover:bg-emerald-700"
+                  >
+                    <Link href="/onboarding">
+                      Get Started
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      asChild
+                      size="lg"
+                      className="bg-emerald-600 text-white hover:bg-emerald-700"
+                    >
+                      <Link href="/onboarding">
+                        Get Started
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="bg-emerald-700/30 hover:bg-muted/80"
+                    >
+                      <Link href="/doctors">Find Doctors</Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
             <div className="flex justify-center lg:justify-center">
@@ -104,40 +163,40 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 ">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge
-              variant="outline"
-              className="bg-emerald-900/30 
+      {user?.role !== "DOCTOR" && user?.role !== "ADMIN" && (
+        <section className="py-20 ">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <Badge
+                variant="outline"
+                className="bg-emerald-900/30 
         border-emerald-700/30 
         px-4 py-1
         text-emerald-400 text-sm font-medium mb-4"
-            >
-              Affordable Healthcare
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Consultation Packages
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto ">
-              Choose the perfect consultation package that fits your healthcare
-              needs
-            </p>
-          </div>
-          <div>
-            {/* Pricing Table */}
-            
-            <Pricing/>
+              >
+                Affordable Healthcare
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Consultation Packages
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto ">
+                Choose the perfect consultation package that fits your
+                healthcare needs
+              </p>
+            </div>
+            <div>
+              {/* Pricing Table */}
 
-            <Card className="mt-12 bg-muted/20 border-emerald-900/30">
-              <CardHeader>
-                <CardTitle className="text-xl font-semibold text-white flex items-center">
-                  <Stethoscope className="h-5 w-5 mr-2 text-emerald-400" />
-                  How Our Credit System Works
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+              <Pricing />
 
+              <Card className="mt-12 bg-muted/20 border-emerald-900/30">
+                <CardHeader>
+                  <CardTitle className="text-xl font-semibold text-white flex items-center">
+                    <Stethoscope className="h-5 w-5 mr-2 text-emerald-400" />
+                    How Our Credit System Works
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
                   <ul className="space-y-3">
                     {creditBenefits.map((benefit, index) => {
                       return (
@@ -153,12 +212,122 @@ export default function Home() {
                       );
                     })}
                   </ul>
-
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+      {user?.role === "DOCTOR" && (
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <Badge
+                variant="outline"
+                className="bg-emerald-900/30 border-emerald-700/30 px-4 py-1 text-emerald-400 text-sm font-medium mb-4"
+              >
+                Doctor Dashboard
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Manage Your Practice
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                Access your appointments and control your availability easily.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+              <Card className="bg-muted/30 border-emerald-900/30">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">
+                    Appointments
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    View and manage your upcoming appointments with patients.
+                  </p>
+                  <Button asChild variant="outline">
+                    <Link href="/appointments">Go to Appointments</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-muted/30 border-emerald-900/30">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">
+                    Availability
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    Set your consultation hours and availability preferences.
+                  </p>
+                  <Button asChild variant="outline">
+                    <Link href="/appointments">Manage Availability</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {user?.role === "ADMIN" && (
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <Badge
+                variant="outline"
+                className="bg-emerald-900/30 border-emerald-700/30 px-4 py-1 text-emerald-400 text-sm font-medium mb-4"
+              >
+                Admin Dashboard
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Doctor Verification
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                Review doctor profiles and manage verification statuses.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+              <Card className="bg-muted/30 border-emerald-900/30">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">
+                    Manage Pending Verifications
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    Review and approve doctor profiles awaiting verification.
+                  </p>
+                  <Button asChild variant="outline">
+                    <Link href="/admin">Go to Verifications</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-muted/30 border-emerald-900/30">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">
+                    Verified Doctors
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    Browse and manage the list of verified medical
+                    professionals.
+                  </p>
+                  <Button asChild variant="outline">
+                    <Link href="/admin">View Verified Doctors</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
@@ -234,14 +403,31 @@ export default function Home() {
                   >
                     <Link href="/sign-in">Sign In Now</Link>
                   </Button>
-                  <Button
+                  {user?.role !== "DOCTOR" && user?.role !== "ADMIN" && (
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="border-emerald-700/30 hover:bg-muted/80"
+                      asChild
+                    >
+                      <Link href="/pricing">View Pricing</Link>
+                    </Button>
+                  )}
+
+                  {user?.role === "DOCTOR" && (
+                    <Button size="lg" variant="outline" asChild>
+                      <Link href="/doctor">Manage Schedule</Link>
+                    </Button>
+                  )}
+
+                  {/* <Button
                     size="lg"
                     variant="outline"
                     className="border-emerald-700/30 hover:bg-muted/80"
                     asChild
                   >
                     <Link href="/pricing"> View Pricing</Link>
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </CardContent>
