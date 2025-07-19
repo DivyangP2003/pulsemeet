@@ -15,16 +15,15 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  clerkUserId String   @unique // Clerk's user ID
-  email       String   @unique
-  name        String?
-  imageUrl    String?
-  role        UserRole @default(UNASSIGNED) // UNASSIGNED, PATIENT, DOCTOR, ADMIN
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-
+  id                String    @id @default(uuid())
+  clerkUserId       String    @unique // Clerk's user ID
+  email             String    @unique
+  name              String?
+  imageUrl          String?
+  role              UserRole  @default(UNASSIGNED) // UNASSIGNED, PATIENT, DOCTOR, ADMIN
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
   // Patient-specific fields
   credits           Int       @default(2) // Accumulated credit balance
   
@@ -40,6 +39,7 @@ model User {
   doctorAppointments  Appointment[] @relation("DoctorAppointments")
   availabilities      Availability[]
   transactions        CreditTransaction[]
+  payouts             Payout[]
 }
 
 enum UserRole {
@@ -115,4 +115,28 @@ enum TransactionType {
   CREDIT_PURCHASE     // Credits purchased through Clerk Billing
   APPOINTMENT_DEDUCTION // Credit used for appointment
   ADMIN_ADJUSTMENT      // Manual adjustment by admin
+}
+
+model Payout {
+  id              String        @id @default(uuid())
+  doctorId        String
+  doctor          User          @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  amount          Float         // Total payout amount in USD
+  credits         Int           // Number of credits being paid out
+  platformFee     Float         // Platform fee deducted (2 USD per credit)
+  netAmount       Float         // Amount doctor receives (8 USD per credit)
+  paypalEmail     String        // Doctor's PayPal email for payout
+  status          PayoutStatus  @default(PROCESSING)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  processedAt     DateTime?     // When admin marked it as processed
+  processedBy     String?       // Admin who processed it
+
+  @@index([status, createdAt])
+  @@index([doctorId, status])
+}
+
+enum PayoutStatus {
+  PROCESSING
+  PROCESSED
 }
