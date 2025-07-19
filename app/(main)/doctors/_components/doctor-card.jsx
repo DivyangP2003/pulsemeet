@@ -4,8 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { checkUser } from "@/lib/checkUser";
 
-const DoctorCard = ({ doctor }) => {
+const DoctorCard = async ({ doctor }) => {
+  const user = await checkUser();
+  const isAdmin = user?.role === "ADMIN";
   return (
     <Card className="border-emerald-900/20 hover:border-emerald-700/40 transition-all">
       <CardContent>
@@ -42,15 +45,17 @@ const DoctorCard = ({ doctor }) => {
               {doctor.description}
             </div>
 
-            <Button
-              asChild
-              className="w-full bg-emerald-500 hover:bg-emerald-600 mt-2"
-            >
-              <Link href={`/doctors/${doctor.specialty}/${doctor.id}`}>
-                <Calendar className="h-4 w-4 mr-2" />
-                View Profile & Book
-              </Link>
-            </Button>
+            {!isAdmin && (
+              <Button
+                asChild
+                className="w-full bg-emerald-500 hover:bg-emerald-600 mt-2"
+              >
+                <Link href={`/doctors/${doctor.specialty}/${doctor.id}`}>
+                  <Calendar className="h-4 w-4 mr-2" />
+                  View Profile & Book
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
       </CardContent>
