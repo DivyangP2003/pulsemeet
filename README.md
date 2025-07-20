@@ -1,6 +1,6 @@
 # 🩺 PulseMeet –  Full-Stack Telemedicine Appointment App
 
-PulseMeet  is a fully-featured, production-ready **telemedicine platform** that allows patients to consult doctors via **secure video calls**, **book appointments**, and **subscribe to plans** using a **credit-based system**. Built with the modern Next.js 14 App Router, it supports **full authentication**, ** role-based access** , **real-time scheduling**, and **billing**.
+PulseMeet  is a fully-featured, production-ready **telemedicine platform** that allows patients to consult doctors via **secure video calls**, **book appointments**, and **subscribe to plans** using a **credit-based system**. Built with the modern Next.js 14 App Router, it supports **full authentication**, **role-based access**, **real-time scheduling**, and **billing**.
 
 ![Landing](./public/LandingPage.png) 
 
@@ -96,6 +96,52 @@ PulseMeet  is a fully-featured, production-ready **telemedicine platform** that 
 
 ---
 
+
+## 🚀 Tech Stack
+
+| Area        | Tech Stack |
+|-------------|------------|
+| **Frontend**   | Next.js 14 App Router, React 19, Tailwind CSS, ShadCN UI                    |
+| **Database**   | PostgreSQL (hosted on Neon), Prisma ORM                                     |
+| **Auth**       | Clerk (with social login, middleware, custom roles)                        |
+| **Email** | Resend |
+| **Video Calls**| Vonage Video API (2000 free minutes)                                        |
+| **Payments**   | Clerk Subscriptions                                    |
+| **CI/CD**    | Vercel + GitHub Actions |
+
+---
+
+## 💸 Credit-Based Subscriptions
+
+| Plan Name             | Credits           | Price | Use Case |
+|----------------------|--------------------|---------|-----|
+| `Basic`      | 2  | Free | One free consultation |
+| `Standard` | 10      | $50 | ~5 consultations/month |
+| `Premium`  | 24       | $100 | ~12 consultations/month |
+
+Credits are deducted upon booking. Users must maintain enough credits to continue.
+✅ Powered by [Clerk](https://clerk.com/) – Comprehensive User Management Platform.
+
+---
+## 🎥 Secure, In-Browser Video Consultations
+
+PulseMeet integrates the **Vonage Video API** to enable real-time, secure, 1:1 video consultations between doctors and patients — no third-party tools required.
+
+| Feature                          | Description                                                                 |
+|----------------------------------|-----------------------------------------------------------------------------|
+| 🔐 End-to-End Security           | Each consultation is conducted in a unique, encrypted Vonage session.       |
+| 🧑‍⚕️ Role-Based Call Access      | Only the assigned **doctor** and **patient** can join the session.          |
+| 🔄 Real-Time Session Handling    | Sessions are created automatically when appointments are booked.            |
+| 🎛️ Call Controls                 | Participants can **mute/unmute audio**, **toggle video**, and **leave**.    |
+| 📋 Session Metadata & Logging    | Appointments track session IDs and timestamps for audit and analytics.      |
+| 📱 Fully In-Browser              | No downloads or installs — works across modern desktop & mobile browsers.   |
+| 🌐 Auto-Adaptive UI              | Responsive, theme-aware call interface using Tailwind + ShadCN components.  |
+
+✅ Powered by [Vonage Video API](https://www.vonage.com/communications-apis/video) — integrated securely using server-side tokens and session creation logic.
+
+---
+
+
 ## 📸 Screenshots
 
 ### 🏠 Landing & Onboarding
@@ -143,50 +189,6 @@ PulseMeet  is a fully-featured, production-ready **telemedicine platform** that 
 | Pricing Page | Video Consultation |
 |--------------|--------------------|
 | ![](./public/Prcing.png) | ![](./public/VideoCalling.png) |
-
----
-
-## 🚀 Tech Stack
-
-| Area        | Tech Stack |
-|-------------|------------|
-| **Frontend**   | Next.js 14 App Router, React 19, Tailwind CSS, ShadCN UI                    |
-| **Database**   | PostgreSQL (hosted on Neon), Prisma ORM                                     |
-| **Auth**       | Clerk (with social login, middleware, custom roles)                        |
-| **Email** | Resend |
-| **Video Calls**| Vonage Video API (2000 free minutes)                                        |
-| **Payments**   | Clerk Subscriptions                                    |
-| **CI/CD**    | Vercel + GitHub Actions |
-
----
-
-## 💸 Credit-Based Subscriptions
-
-| Plan Name             | Credits           | Price | Use Case |
-|----------------------|--------------------|---------|-----|
-| `Basic`      | 2  | Free | One free consultation |
-| `Standard` | 10      | $50 | ~5 consultations/month |
-| `Premium`  | 24       | $100 | ~12 consultations/month |
-
-Credits are deducted upon booking. Users must maintain enough credits to continue.
-✅ Powered by [Clerk](https://clerk.com/) – Comprehensive User Management Platform.
-
----
-## 🎥 Secure, In-Browser Video Consultations
-
-PulseMeet integrates the **Vonage Video API** to enable real-time, secure, 1:1 video consultations between doctors and patients — no third-party tools required.
-
-| Feature                          | Description                                                                 |
-|----------------------------------|-----------------------------------------------------------------------------|
-| 🔐 End-to-End Security           | Each consultation is conducted in a unique, encrypted Vonage session.       |
-| 🧑‍⚕️ Role-Based Call Access      | Only the assigned **doctor** and **patient** can join the session.          |
-| 🔄 Real-Time Session Handling    | Sessions are created automatically when appointments are booked.            |
-| 🎛️ Call Controls                 | Participants can **mute/unmute audio**, **toggle video**, and **leave**.    |
-| 📋 Session Metadata & Logging    | Appointments track session IDs and timestamps for audit and analytics.      |
-| 📱 Fully In-Browser              | No downloads or installs — works across modern desktop & mobile browsers.   |
-| 🌐 Auto-Adaptive UI              | Responsive, theme-aware call interface using Tailwind + ShadCN components.  |
-
-✅ Powered by [Vonage Video API](https://www.vonage.com/communications-apis/video) — integrated securely using server-side tokens and session creation logic.
 
 ---
 
