@@ -1,6 +1,6 @@
 # 🩺 PulseMeet –  Full-Stack Telemedicine Appointment App
 
-PulseMeet  is a fully-featured, production-ready **telemedicine platform** that allows patients to consult doctors via **secure video calls**, **book appointments**, and **subscribe to plans** using a **credit-based system**. Built with the modern Next.js 14 App Router, it supports **full authentication**,** role-based access**, **real-time scheduling**, and **billing**.
+PulseMeet  is a fully-featured, production-ready **telemedicine platform** that allows patients to consult doctors via **secure video calls**, **book appointments**, and **subscribe to plans** using a **credit-based system**. Built with the modern Next.js 14 App Router, it supports **full authentication**, ** role-based access** , **real-time scheduling**, and **billing**.
 
 ![Landing](./public/LandingPage.png) 
 
@@ -163,7 +163,7 @@ PulseMeet  is a fully-featured, production-ready **telemedicine platform** that 
 ## 💸 Credit-Based Subscriptions
 
 | Plan Name             | Credits           | Price | Use Case |
-|----------------------|--------------------|---------|
+|----------------------|--------------------|---------|-----|
 | `Basic`      | 2  | Free | One free consultation |
 | `Standard` | 10      | $50 | ~5 consultations/month |
 | `Premium`  | 24       | $100 | ~12 consultations/month |
