@@ -15,9 +15,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider appearance={{
-      baseTheme:dark,
-    }}>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
       <html lang="en" suppressHydrationWarning>
         <body className={`${inter.subsets}`}>
           <ThemeProvider
@@ -30,13 +32,22 @@ export default function RootLayout({ children }) {
             <Header />
 
             <main className="min-h-screen">{children}</main>
-            <Toaster richColors/>
-            
+            <Toaster richColors />
+
+            {/* footer */}
             {/* footer */}
             <footer className="bg-muted/50 py-12">
-              <div className="container mx-auto px-4 text-center text-gray-200">
+              <div className="container mx-auto px-4 text-center text-gray-200 space-y-2">
                 <p>
-                  © 2025 ExpensIQ • Designed & Developed by Divyang Palshetkar
+                  PulseMeet • Designed & Developed by Divyang Palshetkar
+                </p>
+                <p>
+                  <a
+                    href="/contact-support"
+                    className="text-emerald-400 hover:underline transition"
+                  >
+                    Need Help? Contact Support
+                  </a>
                 </p>
               </div>
             </footer>
